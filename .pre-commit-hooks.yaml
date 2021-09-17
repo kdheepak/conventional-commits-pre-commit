@@ -1,0 +1,7 @@
+---
+- id: check-commit-msg
+  name: conventional commit check
+  description: Conventional commit policy enforcement
+  entry: ./hooks/commit-msg
+  language: script
+  stages: [commit-msg]
