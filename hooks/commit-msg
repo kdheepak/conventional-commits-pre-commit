@@ -5,18 +5,19 @@ import sys
 import os
 
 types = """
-* feat             A new feature - SemVar PATCH
-* fix              A bug fix - SemVar MINOR
-* BREAKING CHANGE  Breaking API change - SemVar MAJOR
-* revert           Revert a commit
-* build            Change to build system
-* chore            Change to tooling/config/!src/!test
-* ci               Change to CI pipeline/workflow
-* docs             Change to documentation only
-* perf             Change that affects performance
-* refactor         Change not related to a bug or feat
-* style            Change to style (whitespace, etc.)
-* test             Change that adds/modifies tests
+* 💥 BREAKING CHANGE  Breaking API change - SemVar MAJOR
+* 🎉 new              A new repo
+* ✨ feat             A new feature - SemVar PATCH
+* 🐛 fix              A bug fix - SemVar MINOR
+* 🗑️  revert           Revert a commit
+* 🛠️  build            Change to build system
+* ♻️  chore            Change to tooling/config/!src/!test
+* ⚙️  ci               Change to CI pipeline/workflow
+* 📚 docs             Change to documentation only
+* 🚀 perf             Change that affects performance
+* 📦 refactor         Change not related to a bug or feat
+* 💎 style            Change to style (whitespace, etc.)
+* 🚨 test             Change that adds/modifies tests
 """
 
 
@@ -35,7 +36,7 @@ def main():
         "chore": "♻️",
         "revert": "🗑",
     }
-    pattern = r"(build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?:\s.*"
+    pattern = r"(new|build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?:\s.*"
     filename = sys.argv[1]
     ss = open(filename, "r").read()
     header = [line for line in ss.splitlines() if not line.startswith("# ")][0]
@@ -45,16 +46,17 @@ def main():
         print("\nhttps://www.conventionalcommits.org/\n")
         sys.exit(1)
     elif os.getenv("PRECOMMIT_NOEMOJI", "false") != "true":
-        commitPrefix = header.split(':')[0]
-        commitPostfix = header.split(':')[1]
-        if '(' in commitPrefix:
+        commitPrefix = header.split(":")[0]
+        commitPostfix = header.split(":")[1]
+        if "(" in commitPrefix:
             commitEmoji = emojies.get(commitPrefix.split("(")[3], "")
         else:
             commitEmoji = emojies.get(commitPrefix, "")
         new_header = commitPrefix + ":" + commitPostfix + " " + commitEmoji
         commit_msg = ss.replace(header, new_header)
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             f.write(commit_msg)
+
 
 if __name__ == "__main__":
     main()
