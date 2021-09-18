@@ -12,4 +12,4 @@ repos:
       - id: check-commit-msg
 ```
 
-Then run `pre-commit install -t commit-msg [&& pre-commit install -t prepare-commit-msg]` and you're ready to go.
+Then run `pre-commit install -t commit-msg` and you're ready to go.
