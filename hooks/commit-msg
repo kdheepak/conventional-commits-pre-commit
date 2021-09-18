@@ -45,7 +45,7 @@ def main():
         print("\n", types)
         print("\nhttps://www.conventionalcommits.org/\n")
         sys.exit(1)
-    elif os.getenv("PRECOMMIT_NOEMOJI", "false") != "true":
+    elif os.getenv("CONVENTIONAL_COMMITS_PRECOMMIT_NOEMOJI", "false") != "true":
         commitPrefix = header.split(":")[0]
         commitPostfix = header.split(":")[1]
         if "(" in commitPrefix:
