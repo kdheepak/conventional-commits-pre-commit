@@ -5,10 +5,10 @@ import sys
 import os
 
 types = """
-* 💥 BREAKING CHANGE  Breaking API change - SemVar MAJOR
 * 🎉 new              A new repo
-* ✨ feat             A new feature - SemVar PATCH
-* 🐛 fix              A bug fix - SemVar MINOR
+* 💥 BREAKING CHANGE  A breaking API change - SemVar MAJOR
+* ✨ feat             A new feature - SemVar MINOR
+* 🐛 fix              A bug fix - SemVar PATCH
 * 🗑️  revert           Revert a commit
 * 🛠️  build            Change to build system
 * ♻️  chore            Change to tooling/config/!src/!test
@@ -35,8 +35,9 @@ def main():
         "test": "🚨",
         "chore": "♻️",
         "revert": "🗑",
+        "breaking": "💥",
     }
-    pattern = r"(new|build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?:\s.*"
+    pattern = r"(new|build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?!?:\s.*"
     filename = sys.argv[1]
     ss = open(filename, "r").read()
     header = [line for line in ss.splitlines() if not line.startswith("# ")][0]
@@ -49,10 +50,12 @@ def main():
         commitPrefix = header.split(":")[0]
         commitPostfix = header.split(":")[1]
         if "(" in commitPrefix:
-            commitEmoji = emojies.get(commitPrefix.split("(")[3], "")
+            commitEmoji = emojies.get(commitPrefix.rstrip("!").split("(")[3], "")
         else:
-            commitEmoji = emojies.get(commitPrefix, "")
+            commitEmoji = emojies.get(commitPrefix.rstrip("!"), "")
         new_header = commitPrefix + ":" + commitPostfix + " " + commitEmoji
+        if commitPrefix.endswith("!"):
+            new_header = new_header + " " + emojies["breaking"]
         commit_msg = ss.replace(header, new_header)
         with open(filename, "w") as f:
             f.write(commit_msg)
