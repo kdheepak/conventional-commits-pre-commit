@@ -1,4 +1,4 @@
-# Conventional commits pre-commit hook
+# Conventional commits precommit hook
 
 ```yaml
 # Make sure to set the default_stages in your config file
