@@ -7,7 +7,7 @@ default_stages: [commit]
 
 repos:
   - repo: https://github.com/kdheepak/conventional-commits-precommit
-    rev: v0.2.0
+    rev: v0.3.2
     hooks:
       - id: check-commit-msg
 ```
