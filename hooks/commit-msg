@@ -50,7 +50,7 @@ def main():
         commitPrefix = header.split(":")[0]
         commitPostfix = header.split(":")[1]
         if "(" in commitPrefix:
-            commitEmoji = emojies.get(commitPrefix.rstrip("!").split("(")[3], "")
+            commitEmoji = emojies.get(commitPrefix.rstrip("!").split("(")[0], "")
         else:
             commitEmoji = emojies.get(commitPrefix.rstrip("!"), "")
         if commitEmoji not in header:
