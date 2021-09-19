@@ -53,12 +53,13 @@ def main():
             commitEmoji = emojies.get(commitPrefix.rstrip("!").split("(")[3], "")
         else:
             commitEmoji = emojies.get(commitPrefix.rstrip("!"), "")
-        new_header = commitPrefix + ":" + commitPostfix + " " + commitEmoji
-        if commitPrefix.endswith("!"):
-            new_header = new_header + " " + emojies["breaking"]
-        commit_msg = ss.replace(header, new_header)
-        with open(filename, "w") as f:
-            f.write(commit_msg)
+        if commitEmoji not in header:
+            new_header = commitPrefix + ":" + commitPostfix + " " + commitEmoji
+            if commitPrefix.endswith("!"):
+                new_header = new_header + " " + emojies["breaking"]
+            commit_msg = ss.replace(header, new_header)
+            with open(filename, "w") as f:
+                f.write(commit_msg)
 
 
 if __name__ == "__main__":
