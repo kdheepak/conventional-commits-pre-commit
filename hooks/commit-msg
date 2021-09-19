@@ -46,17 +46,25 @@ def main():
         print("\n", types)
         print("\nhttps://www.conventionalcommits.org/\n")
         sys.exit(1)
-    elif os.getenv("CONVENTIONAL_COMMITS_PRECOMMIT_NOEMOJI", "false") != "true":
+    else:
         commitPrefix = header.split(":")[0]
         commitPostfix = header.split(":")[1]
-        if "(" in commitPrefix:
-            commitEmoji = emojies.get(commitPrefix.rstrip("!").split("(")[0], "")
+        if "BREAKING CHANGE" in ss and not commitPrefix.endswith("!"):
+            commitPrefix = commitPrefix + "!"
+        commitEmoji = ""
+        if os.getenv("CONVENTIONAL_COMMITS_PRECOMMIT_NOEMOJI", "false") != "true":
+            if commitPrefix.endswith("!") and emojies["breaking"] not in header:
+                commitEmoji = commitEmoji + " " + emojies["breaking"]
+            if "(" in commitPrefix:
+                e = emojies.get(commitPrefix.rstrip("!").split("(")[0], "")
+            else:
+                e = emojies.get(commitPrefix.rstrip("!"), "")
+            if e not in header:
+                commitEmoji = commitEmoji + " " + e
         else:
-            commitEmoji = emojies.get(commitPrefix.rstrip("!"), "")
-        if commitEmoji not in header:
-            new_header = commitPrefix + ":" + commitPostfix + " " + commitEmoji
-            if commitPrefix.endswith("!"):
-                new_header = new_header + " " + emojies["breaking"]
+            commitEmoji = ""
+        new_header = commitPrefix + ":" + commitPostfix + commitEmoji
+        if new_header.strip() != header.strip():
             commit_msg = ss.replace(header, new_header)
             with open(filename, "w") as f:
                 f.write(commit_msg)
