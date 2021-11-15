@@ -36,6 +36,7 @@ def main():
         "chore": "♻️",
         "revert": "🗑",
         "breaking": "💥",
+        "wip": "🚧",
     }
     pattern = r"(new|build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?!?:\s.*"
     filename = sys.argv[1]
