@@ -38,7 +38,7 @@ def main():
         "breaking": "💥",
         "wip": "🚧",
     }
-    pattern = r"(new|build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?!?:\s.*"
+    pattern = r"({})(\([\w\-]+\))?!?:\s.*".format("|".join(emojies.keys()))
     filename = sys.argv[1]
     ss = open(filename, "r").read()
     header = [line for line in ss.splitlines() if not line.startswith("# ")][0]
