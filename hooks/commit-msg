@@ -18,6 +18,7 @@ types = """
 * 📦 refactor         Change not related to a bug or feat
 * 💎 style            Change to style (whitespace, etc.)
 * 🚨 test             Change that adds/modifies tests
+* 🚧 wip              Change that is work in progress
 """
 
 
