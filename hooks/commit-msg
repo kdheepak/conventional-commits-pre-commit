@@ -50,7 +50,7 @@ def main():
         sys.exit(1)
     else:
         commitPrefix = header.split(":")[0]
-        commitPostfix = header.split(":")[1]
+        commitPostfix = header.split(":")[1:]
         if "BREAKING CHANGE" in ss and not commitPrefix.endswith("!"):
             commitPrefix = commitPrefix + "!"
         commitEmoji = ""
@@ -65,7 +65,7 @@ def main():
                 commitEmoji = commitEmoji + " " + e
         else:
             commitEmoji = ""
-        new_header = commitPrefix + ":" + commitPostfix + commitEmoji
+        new_header = commitPrefix + ":" + ":".join(commitPostfix) + commitEmoji
         if new_header.strip() != header.strip():
             commit_msg = ss.replace(header, new_header)
             with open(filename, "w") as f:
